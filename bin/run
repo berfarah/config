@@ -1,0 +1,30 @@
+#!/usr/bin/env ruby
+
+case ARGV.first
+when "encrypt"
+  from = "decrypted"
+  to   = "encrypted"
+when "decrypt"
+  from  = "encrypted"
+  to    = "decrypted"
+  flags = "-d"
+else
+  puts "Usage: #{__FILE__} [encrypt|decrypt]"
+  exit 1
+end
+
+require "fileutils"
+require "pathname"
+
+CONFIG_PATH = Pathname.new(File.expand_path("../../", __FILE__)).freeze
+KEY = File.read(CONFIG_PATH.join(".key")).freeze
+
+Dir[CONFIG_PATH.join("#{from}/**/*/")].each do |dir|
+  encrypted_dir = dir.sub(from, to)
+  FileUtils.mkdir_p(encrypted_dir)
+end
+
+Dir[CONFIG_PATH.join("#{from}/**/*.yml")].each do |file|
+  destination_file = file.sub(from, to)
+  system("openssl enc -aes-256-cbc #{flags} -salt -in #{file} -out #{destination_file} -k #{KEY}")
+end

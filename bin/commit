@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+ENCRYPTED_DIR = File.expand_path("../../encrypted", __FILE__).freeze
+RUN_FILE = File.expand_path("../run", __FILE__).freeze
+
+system("#{RUN_FILE} encrypt && git add #{ENCRYPTED_DIR} && git commit")
