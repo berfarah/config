@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+RUN_FILE = File.expand_path("../../../bin/run", __FILE__).freeze
+system("#{RUN_FILE} decrypt")

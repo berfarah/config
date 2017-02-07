@@ -8,12 +8,17 @@ encryption.
 It uses `openssl` and a `.key` to encrypt your decrypted files (put in the
 `./decrypted` folder.
 
+### Initial setup
+
+In order to install the commit hooks, just run `bin/setup`.
+
+You will need a matching `.key` file in order to en/decrypt files for this
+repository.
+
 ### Decrypting files
 
 Upon changing branches or updating the repository, it automatically decrypts the
 remote contents, overwriting your local decrypted files.
-
-You will need the matching `.key` in order to decrypt the files successfully.
 
 ### Committing Changes
 
