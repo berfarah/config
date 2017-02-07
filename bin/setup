@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require "pathname"
+
+BIN_PATH = Pathname.new(File.expand_path("..", __FILE__)).freeze
+GIT_HOOK_PATH = File.expand_path("../../.git/hooks", __FILE__).freeze
+
+def install_hook(name)
+  print "Installing #{name} hook... "
+  hook_path = BIN_PATH.join(name)
+  puts system("cp #{hook_path} #{GIT_HOOK_PATH}") ? "[installed]" : "[failed]"
+end
+
+install_hook "post-checkout"
+install_hook "post-merge"
