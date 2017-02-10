@@ -14,5 +14,3 @@ end
 
 install_hook "post-checkout"
 install_hook "post-merge"
-
-system("cp #{RUN_PATH} #{GIT_HOOK_PATH}")
