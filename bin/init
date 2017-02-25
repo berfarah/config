@@ -1,0 +1,15 @@
+#!/bin/sh
+
+GIT_CRYPT=`which git-crypt`
+
+# Install git-crypt if it's missing
+if [ ! -x "$GIT_CRYPT" ]; then
+  echo "Installing git-crypt"
+  brew install git-crypt
+fi
+
+git-crypt init -k development
+git-crypt init -k staging
+
+git-crypt export-key -k development development.key
+git-crypt export-key -k staging staging.key

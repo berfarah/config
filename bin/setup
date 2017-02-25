@@ -1,16 +1,20 @@
 #!/usr/bin/env ruby
 
-require "pathname"
-
-BIN_HOOK_PATH = Pathname.new(File.expand_path("../hooks", __FILE__)).freeze
-GIT_HOOK_PATH = File.expand_path("../../.git/hooks", __FILE__).freeze
-RUN_PATH      = File.expand_path("../run", __FILE__).freeze
-
-def install_hook(name)
-  print "Installing #{name} hook... "
-  hook_path = BIN_HOOK_PATH.join(name)
-  puts system("cp #{hook_path} #{GIT_HOOK_PATH}") ? "[installed]" : "[failed]"
+# Install git-crypt if it's missing
+unless shell "which git-crypt"
+  puts "Instaling git-crypt"
+  shell "brew install git-crypt"
 end
 
-install_hook "post-checkout"
-install_hook "post-merge"
+POSSIBLE_KEYS = %w(development.key staging.key)
+
+keys = Dir[*POSSIBLE_KEYS]
+
+if keys.empty?
+  STDERR.puts "You need one of these keys to use this repo:"
+  STDERR.puts POSSIBLE_KEYS
+  exit 1
+end
+
+# Set git-crypt up with the available keys
+keys.each { |key| shell "git-crypt unlock #{key}" }

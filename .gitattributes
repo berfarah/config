@@ -1,0 +1,5 @@
+/*/staging/** filter=git-crypt-staging diff=git-crypt-staging
+.gitattributes !filter !diff
+
+/*/development/** filter=git-crypt-development diff=git-crypt-development
+.gitattributes !filter !diff
