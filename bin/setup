@@ -1,9 +1,9 @@
 #!/usr/bin/env ruby
 
 # Install git-crypt if it's missing
-unless shell "which git-crypt"
+unless system "which git-crypt"
   puts "Instaling git-crypt"
-  shell "brew install git-crypt"
+  system "brew install git-crypt"
 end
 
 POSSIBLE_KEYS = %w(development.key staging.key)
@@ -17,4 +17,4 @@ if keys.empty?
 end
 
 # Set git-crypt up with the available keys
-keys.each { |key| shell "git-crypt unlock #{key}" }
+keys.each { |key| system "git-crypt unlock #{key}" }
